@@ -1,6 +1,10 @@
 # Barzilai-Borwein-based Adaptive Learning Rate for Deep Learning
 PyTorch implementation of BB learning rate proposed by the following paper:
-[Barzilai-Borwein-based Adaptive Learning Rate for Deep Learning](http://www.sciencedirect.com/science/article/pii/S0167865519302429).
+[Barzilai-Borwein-based Adaptive Learning Rate for Deep Learning](https://doi.org/10.1016/j.patrec.2019.08.029).
+- A Barzilai–Borwein-based method for adaptive learning rate of training DNNs.
+- The method is highly insensitive to initial learning rate which greatly reduces computational effort.
+- The method has its advantage over others on learning speed and generalization performance.
+- Convergence guarantee of the method for training DNNs.
 
 ## Files
 
@@ -12,7 +16,7 @@ PyTorch implementation of BB learning rate proposed by the following paper:
 You can use BB just like any other PyTorch optimizers.
 
 ```python3
-optimizer = BB(model.parameters(), lr=1e-1, steps=200, beta=0.005, max_lr=10.0, min_lr=1e-1)
+optimizer = BB(model.parameters(), lr=1e-1, steps=400, beta=0.01, max_lr=10.0, min_lr=1e-1)
 ```
 
 ## Dependencies
@@ -26,16 +30,12 @@ Other versions might also work.
 ## Citation
 If you use BB for your research, please cite:
 ```text
-@article{liang2019BB,
-  title = {Barzilai-Borwein-Based Adaptive Learning Rate for Deep Learning},
-  issn = {0167-8655},
-  url = {http://www.sciencedirect.com/science/article/pii/S0167865519302429},
-  doi = {10/gf7gbd},
-  journaltitle = {Pattern Recognition Letters},
-  date = {2019-08-30},
-  author = {Liang, Jinxiu and Xu, Yong and Bao, Chenglong and Quan, Yuhui and Ji, Hui},
+@Article{liang2019bb_dl,
+  Title                    = {Barzilai-Borwein-Based Adaptive Learning Rate for Deep Learning},
+  Author                   = {Liang, Jinxiu and Xu, Yong and Bao, Chenglong and Quan, Yuhui and Ji, Hui},
+  Journal                  = {Pattern Recognition Letters},
+  Year                     = {2019},
+  Pages                    = {197 - 203},
+  Volume                   = {128},
 }
 ```
-
-## License
-[MIT](./LICENSE)

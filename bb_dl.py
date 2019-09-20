@@ -7,12 +7,12 @@ class BB(Optimizer):
     It has been proposed in `Barzilai-Borwein-based Adaptive Learning Rate for Deep Learning`_.
     Arguments:
         params (iterable): iterable of parameters to optimize or dicts defining parameter groups
-        steps (int, optional): how many iterations before calculating bb step size (default: 100)
         lr (float, optional): initial learning rate (default: 1e-1)
-        min_lr (float, optional): minimal learning rate (default: 1e-6)
-        max_lr (float, optional): maximal learning rate (default: 1e-1)
-        beta (float, optional): coefficients used for computing running averages of gradient (default: 0.005)
-        weight_decay (float, optional): weight decay (L2 penalty) (default: 0)
+        steps (int, optional): how many iterations before calculating bb step size (default: 400)
+        beta (float, optional): coefficients used for computing running averages of gradient (default: 0.01)
+        min_lr (float, optional): minimal learning rate (default: 1e-1)
+        max_lr (float, optional): maximal learning rate (default: 10.0)
+        weight_decay (float, optional): weight decay (L2 penalty) (default: 0.)
     .. Barzilai-Borwein-based Adaptive Learning Rate for Deep Learning:
         http://www.sciencedirect.com/science/article/pii/S0167865519302429
     """
@@ -20,15 +20,15 @@ class BB(Optimizer):
     def __init__(self,
                  params,
                  lr=1e-1,
-                 steps=100,
-                 weight_decay=0.,
-                 beta=0.005,
+                 steps=400,
+                 beta=0.01,
                  min_lr=1e-1,
-                 max_lr=10.0
+                 max_lr=10.0,
+                 weight_decay=0.,
                  ):
-        assert steps > 0, ValueError("Invalid steps: {}".format(steps))
-        assert 0.0 <= beta <= 1.0, ValueError("Invalid beta value: {}".format(beta))
         assert lr > 0.0, ValueError("Invalid initial learning rate: {}".format(lr))
+        assert steps > 0, ValueError("Invalid steps: {}".format(steps))
+        assert 0.0 < beta <= 1.0, ValueError("Invalid beta value: {}".format(beta))
         assert min_lr > 0.0, ValueError("Invalid minimal learning rate: {}".format(min_lr))
         assert max_lr > min_lr, ValueError("Invalid maximal learning rate: {}".format(max_lr))
         assert weight_decay >= 0.0, ValueError("Invalid weight_decay value: {}".format(weight_decay))
@@ -91,8 +91,7 @@ class BB(Optimizer):
                 if state['bb_iter'] > 0:
                     self.state[p]['grads_prev'].copy_(self.state[p]['grad_aver'])
                     self.state[p]['params_prev'].copy_(p.detach())
-
-                self.state[p]['grad_aver'].zero_()
+                    self.state[p]['grad_aver'].zero_()
 
             if state['bb_iter'] > 1:
                 if abs(sum_dp_dg) >= 1e-10:

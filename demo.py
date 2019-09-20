@@ -108,15 +108,15 @@ def main():
 
     model = Net().to(device)
     steps = len(train_loader)
-    optimizer = BB(model.parameters(), lr=args.lr, steps=steps, beta=4. / steps, max_lr=3, min_lr=1. / 3)
     # optimizer = Adam(model.parameters())
+    optimizer = BB(model.parameters(), lr=args.lr, steps=steps, beta=4. / steps, max_lr=3, min_lr=1. / 3)
 
     for epoch in range(1, args.epochs + 1):
         train(args, model, device, train_loader, optimizer, epoch)
         test(args, model, device, test_loader)
 
     if args.save_model:
-        torch.save(model.state_dict(), "mnist_cnn.pt")
+        torch.save(model.state_dict(), "mnist_mlp.pt")
 
 
 if __name__ == '__main__':
